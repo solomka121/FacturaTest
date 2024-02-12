@@ -11,6 +11,7 @@ public class FinishPoint : MonoBehaviour
         if (other.TryGetComponent<Player>(out _))
         {
             OnFinishTrigger?.Invoke();
+            Debug.Log("yo");
         }
     }
 }
