@@ -14,10 +14,19 @@
           <e p="Models" t="Include" />
           <e p="Textures" t="Include" />
         </e>
+        <e p="Prefabs" t="Include" />
         <e p="Scenes" t="Include" />
         <e p="Scripts" t="Include">
+          <e p="Enemy.cs" t="Include" />
+          <e p="EnemySpawner.cs" t="Include" />
+          <e p="FinishPoint.cs" t="Include" />
+          <e p="Level.cs" t="Include" />
+          <e p="LevelsController.cs" t="Include" />
           <e p="Player.cs" t="Include" />
-          <e p="SO" t="Include" />
+          <e p="SO" t="Include">
+            <e p="LevelData.cs" t="Include" />
+          </e>
+          <e p="StartArea.cs" t="Include" />
           <e p="Turret.cs" t="Include" />
         </e>
       </e>
