@@ -35,21 +35,23 @@ public class Enemy : MonoBehaviour
 
     private bool _isPaused;
 
-    public void Init(EnemySpawner spawner , Player player , ParticleItemsPool damageParticleItemsPool , float maxXValidPoint)
+    public void Init(EnemySpawner spawner , Player player , ParticleItemsPool damageParticleItemsPool)
     {
         _enemySpawner = spawner;
         
         _player = player;
         _damageParticleItemsPool = damageParticleItemsPool;
-        _maxXWalkValidPoint = maxXValidPoint;
 
         health.OnDeath += Death;
         _player.health.OnDeath += ClearAggro;
-
-        _isPaused = true;
         
         UpdateWalkTimer();
         SetAnimatorRandomIdleOffset();
+    }
+
+    public void SetLevelData(LevelSpawnData data)
+    {
+        _maxXWalkValidPoint = data.maxXValidPoint;
     }
 
     public void Activate()
@@ -168,10 +170,12 @@ public class Enemy : MonoBehaviour
     {
         _damageParticleItemsPool.ActivateParticleAt(transform.position + _centerOffset , Quaternion.LookRotation(-transform.forward));
         
-        _enemySpawner.Remove(this);
-        _player.health.OnDeath -= ClearAggro;
-        
-        Destroy(gameObject);
+        ReturnToPool();
+    }
+
+    public void ReturnToPool()
+    {
+        _enemySpawner.ReturnToPool(this);
     }
 
     private void SetAnimatorRandomIdleOffset()
@@ -211,6 +215,12 @@ public class Enemy : MonoBehaviour
         
         if (_walking != null)
             StopCoroutine(_walking);
+    }
+
+    public void Reset()
+    {
+        ClearAggro();
+        health.Reset();
     }
 
     public void ClearAggro()

@@ -23,6 +23,12 @@ public class Turret : MonoBehaviour
         _laser.gameObject.SetActive(false);
     }
 
+    public void Reset()
+    {
+        transform.rotation = Quaternion.Euler(Vector3.zero);
+        _targetYAngle = 0;
+    }
+
     private void FixedUpdate()
     {
         RotateToTargetAngle();

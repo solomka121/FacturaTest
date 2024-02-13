@@ -6,10 +6,16 @@ using Cinemachine;
 
 public class LevelsController : MonoBehaviour
 {
+    [Header("UI")] 
+    [SerializeField] private GameObject _tapToPlayPanel;
+    [SerializeField] private LosePanel _losePanel;
+    
+    [Header("Scene")]
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private Player _player;
     [SerializeField] private CinemachineVirtualCamera _rideCamera;
     
+    [Header("Levels")]
     [SerializeField] private List<Level> _levels;
     private Level currentLevel => _levels[_currentLevelIndex];
     private int _currentLevelIndex;
@@ -18,7 +24,20 @@ public class LevelsController : MonoBehaviour
 
     private void Start()
     {
-        SetLevel();
+        _player.health.OnDeath += LevelFail;
+
+        LoadLevel();
+    }
+
+    private void ResetLevel()
+    {
+        _player.Reset();
+        currentLevel.finishPoint.OnFinishTrigger -= LevelWin;
+        _tapToPlayPanel.gameObject.SetActive(false);
+
+        _rideCamera.Priority = -1;
+
+        _isPlayingLevel = false;
     }
 
     private void Update()
@@ -32,25 +51,50 @@ public class LevelsController : MonoBehaviour
         }
     }
 
-    private void SetLevel()
+    public void LoadLevel()
     {
-        _currentLevelIndex = 0;
-        LoadLevel();
+        _tapToPlayPanel.gameObject.SetActive(true);
+        currentLevel.gameObject.SetActive(true);
+        _enemySpawner.SpawnEnemyPoints(currentLevel);
+        
+        currentLevel.finishPoint.OnFinishTrigger += LevelWin;
     }
-
+    
     public void StartLevel()
     {
+        _tapToPlayPanel.gameObject.SetActive(false);
+         
         _player.Activate();
-        _enemySpawner.ActivateEnemies();
         
         _isPlayingLevel = true;
 
         _rideCamera.Priority = 2;
     }
 
-    public void LoadLevel()
+    public void ClearLevel()
     {
-        currentLevel.gameObject.SetActive(true);
-        _enemySpawner.SpawnEnemies(currentLevel);
+        currentLevel.gameObject.SetActive(false);
+        _enemySpawner.ClearEnemies();
+        
+        currentLevel.finishPoint.OnFinishTrigger -= LevelWin;
+    }
+
+    public void LevelFail()
+    {
+        _losePanel.Show();
+    }
+
+    public void LevelWin()
+    {
+        Debug.Log("Win");
+    }
+
+    public void RestartLevel()
+    {
+        _losePanel.Hide();
+        
+        ClearLevel();
+        ResetLevel();
+        LoadLevel();
     }
 }

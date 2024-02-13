@@ -30,6 +30,14 @@ public class Player : MonoBehaviour
         health.OnDeath += Death;
     }
 
+    public void Reset()
+    {
+        transform.position = Vector3.zero;
+        health.Reset();
+        _turret.Reset();
+        Deactivate();
+    }
+
     public void Activate()
     {
         canMove = true;
@@ -38,10 +46,15 @@ public class Player : MonoBehaviour
         _turret.Activate();
     }
 
+    public void Deactivate()
+    {
+        _turret.Deactivate();
+    }
+
     public void Death()
     {
         canMove = false;
-        _turret.Deactivate();
+        Deactivate();
     }
 
     private IEnumerator SpeedUp()
