@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //TODO generic pool
-public class ParticlesPool : MonoBehaviour
+public class ParticleItemsPool : MonoBehaviour
 {
     [SerializeField] private ParticlePoolItem _prefab;
     [SerializeField] private Queue<ParticlePoolItem> _items;
@@ -17,6 +17,8 @@ public class ParticlesPool : MonoBehaviour
 
     private void Init()
     {
+        _items = new Queue<ParticlePoolItem>();
+        
         for (int i = 0; i < _preloadedItems; i++)
         {
             Add(SpawnItem());
@@ -55,7 +57,7 @@ public class ParticlesPool : MonoBehaviour
     private ParticlePoolItem SpawnItem()
     {
         ParticlePoolItem item = Instantiate(_prefab, transform);
-        item.Init(this);
+        item.SetPool(this);
         
         return item;
     }

@@ -1,11 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    [SerializeField] private float _damage;
+    [SerializeField] private float _damage = 5;
+    [SerializeField] private float _bulletSpeed = 5;
+    [SerializeField] private float _fireRate = 1;
+    private float _timeSinceLastShot;
+    [SerializeField] private BulletItemsPool _bulletsPool;
+    
     [SerializeField] private float _maxRotationAngle = 60;
     [SerializeField] private float _rotationSpeed = 20;
     
@@ -14,11 +16,32 @@ public class Turret : MonoBehaviour
 
     private float _targetYAngle = 0;
 
-    private void Update()
+    private void FixedUpdate()
     {
         RotateToTargetAngle();
+        TryShoot();
     }
 
+    private void TryShoot()
+    {
+        if (_timeSinceLastShot > 1 / _fireRate)
+        {
+            Shoot();
+            _timeSinceLastShot = 0;
+        }
+
+        _timeSinceLastShot += Time.deltaTime;
+    }
+
+    private void Shoot()
+    {
+        Bullet bulet =  _bulletsPool.GetItem();
+        
+        bulet.transform.rotation = _barrelPoint.rotation;
+        bulet.transform.position = _barrelPoint.position;
+        bulet.Init(_damage , _bulletSpeed);
+    }
+    
     private void RotateToTargetAngle()
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(0, _targetYAngle, 0)),

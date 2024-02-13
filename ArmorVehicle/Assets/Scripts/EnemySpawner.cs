@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,8 +6,8 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Enemy _prefab;
     [SerializeField] private Player _player;
-    [SerializeField] private ParticlesPool _damageParticlesPool;
-    private List<Enemy> _enemies;
+    [SerializeField] private ParticleItemsPool damageParticleItemsPool;
+    [SerializeField] private List<Enemy> _enemies;
 
     private void Awake()
     {
@@ -36,7 +34,7 @@ public class EnemySpawner : MonoBehaviour
             Enemy enemy = Instantiate(_prefab, spawnPosition + randomPos,
                 Quaternion.Euler(new Vector3(0, Random.Range(-180, 180), 0)),
                 transform);
-            enemy.Init(_player , _damageParticlesPool , levelSpawnData.maxXValidPoint);
+            enemy.Init(_player , damageParticleItemsPool , levelSpawnData.maxXValidPoint);
 
             _enemies.Add(enemy);
             spawnPosition.z += distanceBetweenEnemies;

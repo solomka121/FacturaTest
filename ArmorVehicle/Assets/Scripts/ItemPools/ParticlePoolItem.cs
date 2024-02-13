@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
 public class ParticlePoolItem : MonoBehaviour
 {
     public ParticleSystem particles;
-    private ParticlesPool _pool;
+    private ParticleItemsPool _pool;
     private float _duration;
 
     private void OnValidate()
@@ -16,7 +14,7 @@ public class ParticlePoolItem : MonoBehaviour
             particles = GetComponent<ParticleSystem>();
     }
 
-    public void Init(ParticlesPool pool)
+    public void SetPool(ParticleItemsPool pool)
     {
         _pool = pool;
         _duration = particles.main.duration;
@@ -38,6 +36,8 @@ public class ParticlePoolItem : MonoBehaviour
     
     public void Reset()
     {
+        gameObject.SetActive(false);
+        
         particles.Clear();
         _pool.ReturnItem(this);
     }

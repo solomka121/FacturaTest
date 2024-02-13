@@ -49,10 +49,13 @@
           <e p="EnemySpawner.cs" t="Include" />
           <e p="FinishPoint.cs" t="Include" />
           <e p="Health.cs" t="Include" />
+          <e p="ItemPools" t="Include">
+            <e p="BulletItemsPool.cs" t="Include" />
+            <e p="ParticleItemsPool.cs" t="Include" />
+            <e p="ParticlePoolItem.cs" t="Include" />
+          </e>
           <e p="Level.cs" t="Include" />
           <e p="LevelsController.cs" t="Include" />
-          <e p="ParticlePoolItem.cs" t="Include" />
-          <e p="ParticlesPool.cs" t="Include" />
           <e p="Player.cs" t="Include" />
           <e p="SO" t="Include">
             <e p="LevelSpawnData.cs" t="Include" />

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public Health health;
     [SerializeField] private Vector3 _centerOffset = new Vector3(0 , 0.5f , 0);
-    private ParticlesPool _damageParticlesPool;
+    private ParticleItemsPool _damageParticleItemsPool;
 
     [SerializeField] private float _runSpeed = 2;
     private float _moveMultiplier;
@@ -32,10 +31,10 @@ public class Enemy : MonoBehaviour
     private bool _isAngry;
     private Player _player;
 
-    public void Init(Player player , ParticlesPool damageParticlesPool , float maxXValidPoint)
+    public void Init(Player player , ParticleItemsPool damageParticleItemsPool , float maxXValidPoint)
     {
         _player = player;
-        _damageParticlesPool = damageParticlesPool;
+        _damageParticleItemsPool = damageParticleItemsPool;
         _maxXWalkValidPoint = maxXValidPoint;
 
         health.OnDeath += Death;
@@ -44,7 +43,7 @@ public class Enemy : MonoBehaviour
         SetAnimatorRandomIdleOffset();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!_isAngry)
         {
@@ -142,12 +141,15 @@ public class Enemy : MonoBehaviour
     public void Damage(Vector3 damagePoint , float damage)
     {
         health.Damage(damage);
-        _damageParticlesPool.ActivateParticleAt(damagePoint , Quaternion.LookRotation(damagePoint - transform.position));
+        SetAnimatorDamage();
+        
+        damagePoint.y = transform.position.y + _centerOffset.y;
+        _damageParticleItemsPool.ActivateParticleAt(damagePoint , Quaternion.LookRotation(damagePoint - transform.position));
     }
 
     private void Death()
     {
-        _damageParticlesPool.ActivateParticleAt(transform.position + _centerOffset , Quaternion.LookRotation(-transform.forward));
+        _damageParticleItemsPool.ActivateParticleAt(transform.position + _centerOffset , Quaternion.LookRotation(-transform.forward));
         Destroy(gameObject);
     }
 
@@ -165,6 +167,11 @@ public class Enemy : MonoBehaviour
     private void SetAnimatorSpeed()
     {
         _animator.SetFloat("Speed" , _moveMultiplier);
+    }
+    
+    private void SetAnimatorDamage()
+    {
+        _animator.SetTrigger("Damage");
     }
 
     private void ResetAnimatorSpeed()
