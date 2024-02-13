@@ -51,6 +51,7 @@
           <e p="Bullet.cs" t="Include" />
           <e p="Enemy.cs" t="Include" />
           <e p="Health.cs" t="Include" />
+          <e p="HealthBar.cs" t="Include" />
           <e p="ItemPools" t="Include">
             <e p="BulletItemsPool.cs" t="Include" />
             <e p="ParticleItemsPool.cs" t="Include" />
@@ -64,7 +65,10 @@
             <e p="SpawnPoint.cs" t="Include" />
           </e>
           <e p="Player.cs" t="Include" />
-          <e p="SimpleScaler.cs" t="Include" />
+          <e p="Simple" t="Include">
+            <e p="LookAtCamera.cs" t="Include" />
+            <e p="SimpleScaler.cs" t="Include" />
+          </e>
           <e p="SO" t="Include">
             <e p="LevelSpawnData.cs" t="Include" />
           </e>

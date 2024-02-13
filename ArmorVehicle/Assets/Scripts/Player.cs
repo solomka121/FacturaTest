@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Health health;
+    public HealthBar healthBar;
     private Tween _damageTween;
 
     [SerializeField] private float _maxSpeed = 2;
@@ -34,12 +35,15 @@ public class Player : MonoBehaviour
     {
         transform.position = Vector3.zero;
         health.Reset();
+        healthBar.Hide();
+        healthBar.UpdateValue();
         _turret.Reset();
         Deactivate();
     }
 
     public void Activate()
     {
+        healthBar.Show();
         canMove = true;
         
         StartCoroutine(SpeedUp());
