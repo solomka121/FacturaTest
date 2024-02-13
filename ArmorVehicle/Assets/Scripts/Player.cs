@@ -2,17 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public Health health;
+    private Tween _damageTween;
     
     [SerializeField] private float _speed = 2;
     private float _currentSpeed;
     private Rigidbody _rigidbody;
 
     [SerializeField] private Transform _visual;
+    [SerializeField] private Transform _carVisual;
     [SerializeField] private Turret _turret;
     [SerializeField] private float _rotationSensitivity = 100;
 
@@ -24,6 +27,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        health.OnHealthChange += Damage;
     }
 
     private void Update()
@@ -35,6 +39,16 @@ public class Player : MonoBehaviour
     {
         MoveForward();
         MakeNoise();
+    }
+
+    private void Damage(float _)
+    {
+        DOTween.Kill(_carVisual);
+        _carVisual.localPosition = Vector3.zero;
+        _carVisual.localScale = Vector3.one;
+
+        _carVisual.DOShakePosition( 0.2f , 0.14f);
+        _carVisual.DOPunchScale( Vector3.one * -0.12f, 0.16f);
     }
 
     private void CheckForInput()

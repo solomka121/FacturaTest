@@ -243,7 +243,7 @@ MonoBehaviour:
   _maxRotationAngle: 60
   _rotationSpeed: 15
   _barrelPoint: {fileID: 285131680}
-  _laser: {fileID: 0}
+  _laser: {fileID: 1829887671}
 --- !u!1 &285131679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1380,7 +1380,7 @@ MonoBehaviour:
   levelSpawnData: {fileID: 11400000, guid: 42af6e08c965f4545a03d244c5a2980b, type: 2}
   startPoint: {fileID: 394082278}
   finishPoint: {fileID: 3789310517313357038}
-  enemiesToSpawn: 30
+  enemiesToSpawn: 80
 --- !u!1 &1829887670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1578,6 +1578,7 @@ MonoBehaviour:
   health: {fileID: 1860134102}
   _speed: 2
   _visual: {fileID: 1079219235}
+  _carVisual: {fileID: 54147494}
   _turret: {fileID: 75608356}
   _rotationSensitivity: 100
   _enemies:
