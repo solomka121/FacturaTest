@@ -6,12 +6,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float _speed = 10;
+    public Health health;
+    
+    [SerializeField] private float _speed = 2;
     private float _currentSpeed;
     private Rigidbody _rigidbody;
-    
+
+    [SerializeField] private Transform _visual;
     [SerializeField] private Turret _turret;
-    [SerializeField] private float _rotationSensitivity = 10;
+    [SerializeField] private float _rotationSensitivity = 100;
 
     [SerializeField] private LayerMask _enemies;
     [SerializeField] private float _noiseRadius = 8;

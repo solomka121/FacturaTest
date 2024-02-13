@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    public Health health;
+
     [SerializeField] private float _runSpeed = 2;
     private float _moveMultiplier;
     [SerializeField] private float _rotationSpeed = 4;
@@ -32,6 +34,8 @@ public class Enemy : MonoBehaviour
     {
         _player = player;
         _maxXWalkValidPoint = maxXValidPoint;
+
+        health.OnDeath += Death;
         
         UpdateWalkTimer();
     }
@@ -120,6 +124,21 @@ public class Enemy : MonoBehaviour
         Vector3 directionToPlayer = target - transform.position;
 
         transform.position += transform.forward * ((run ? _runSpeed : _walkSpeed) * _moveMultiplier * Time.deltaTime);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.TryGetComponent<Player>(out Player player))
+        {
+            player.health.Damage(_damage);
+            health.Death();
+        }
+    }
+
+    private void Death()
+    {
+        // Spawn Particles
+        Destroy(gameObject);
     }
 
     private void SetRunningAnimation()

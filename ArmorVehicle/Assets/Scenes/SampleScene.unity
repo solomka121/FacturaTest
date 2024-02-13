@@ -1535,6 +1535,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1860134098}
+  - component: {fileID: 1860134102}
   - component: {fileID: 1860134099}
   - component: {fileID: 1860134100}
   - component: {fileID: 1860134101}
@@ -1574,13 +1575,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4836c6b97947f1247b03eb789870fb2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 1860134102}
   _speed: 2
+  _visual: {fileID: 1079219235}
   _turret: {fileID: 75608356}
   _rotationSensitivity: 100
   _enemies:
     serializedVersion: 2
     m_Bits: 256
-  _noiseRadius: 12
+  _noiseRadius: 26
 --- !u!54 &1860134100
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1604,9 +1607,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!65 &1860134101
 BoxCollider:
@@ -1629,6 +1632,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1, y: 1, z: 2.8}
   m_Center: {x: 0, y: 0.5, z: -0.4}
+--- !u!114 &1860134102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1860134097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50cc89b3d7cb35945a25798061fbae2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <maxHealth>k__BackingField: 20
+  <currentHealth>k__BackingField: 20
 --- !u!1001 &2058331623
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6154457053405078109}
+  - component: {fileID: 8465373855965267715}
   - component: {fileID: 3241493069948683571}
   - component: {fileID: 2424751861271777098}
   m_Layer: 8
@@ -34,6 +35,20 @@ Transform:
   - {fileID: 4289350476895253334}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8465373855965267715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004206629022065825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50cc89b3d7cb35945a25798061fbae2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <maxHealth>k__BackingField: 10
+  <currentHealth>k__BackingField: 10
 --- !u!114 &3241493069948683571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,6 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea13fd13c1eb18449de0f6525001984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 8465373855965267715}
   _runSpeed: 2
   _rotationSpeed: 2.5
   _damage: 5

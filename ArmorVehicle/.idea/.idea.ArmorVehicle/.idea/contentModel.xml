@@ -47,6 +47,7 @@
           <e p="Enemy.cs" t="Include" />
           <e p="EnemySpawner.cs" t="Include" />
           <e p="FinishPoint.cs" t="Include" />
+          <e p="Health.cs" t="Include" />
           <e p="Level.cs" t="Include" />
           <e p="LevelsController.cs" t="Include" />
           <e p="Player.cs" t="Include" />
