@@ -50,25 +50,29 @@
         <e p="Scripts" t="Include">
           <e p="Bullet.cs" t="Include" />
           <e p="Enemy.cs" t="Include" />
-          <e p="EnemySpawner.cs" t="Include" />
-          <e p="FinishPoint.cs" t="Include" />
           <e p="Health.cs" t="Include" />
           <e p="ItemPools" t="Include">
             <e p="BulletItemsPool.cs" t="Include" />
             <e p="ParticleItemsPool.cs" t="Include" />
             <e p="ParticlePoolItem.cs" t="Include" />
           </e>
-          <e p="Level.cs" t="Include" />
-          <e p="LevelsController.cs" t="Include" />
-          <e p="LosePanel.cs" t="Include" />
+          <e p="Level" t="Include">
+            <e p="EnemySpawner.cs" t="Include" />
+            <e p="FinishPoint.cs" t="Include" />
+            <e p="Level.cs" t="Include" />
+            <e p="LevelsController.cs" t="Include" />
+            <e p="SpawnPoint.cs" t="Include" />
+          </e>
           <e p="Player.cs" t="Include" />
+          <e p="SimpleScaler.cs" t="Include" />
           <e p="SO" t="Include">
             <e p="LevelSpawnData.cs" t="Include" />
           </e>
-          <e p="SpawnPoint.cs" t="Include" />
-          <e p="StartArea.cs" t="Include" />
           <e p="Turret.cs" t="Include" />
-          <e p="WinPanel.cs" t="Include" />
+          <e p="UI" t="Include">
+            <e p="LosePanel.cs" t="Include" />
+            <e p="WinPanel.cs" t="Include" />
+          </e>
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Documentation" t="Include" />

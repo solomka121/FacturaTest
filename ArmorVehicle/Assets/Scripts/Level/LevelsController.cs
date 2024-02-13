@@ -58,7 +58,7 @@ public class LevelsController : MonoBehaviour
         
         ClearLevel();
         ResetLevel();
-        _currentLevelIndex++;
+        _currentLevelIndex = (_currentLevelIndex + 1) % _levels.Count;
         LoadLevel();
     }
 

@@ -68,7 +68,7 @@ MonoBehaviour:
   _damage: 5
   _animator: {fileID: 7883262375066052908}
   _walk: 1
-  _walkSpeed: 0.5
+  _walkSpeed: 0.7
   _walkFrequency: 8
   _walkFrequencyRandomness: 7
   _maxWalkDistance: 2

@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     public void SetLevelData(Level level)
     {
         _maxXWalkValidPoint = level.levelSpawnData.maxXValidPoint;
-        
+        health.SetMaxHealth(level.enemiesHealth);
     }
 
     public void Activate()
