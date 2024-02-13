@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    public LevelData levelData;
+    public LevelSpawnData levelSpawnData;
     
     public Transform startPoint;
     public FinishPoint finishPoint;

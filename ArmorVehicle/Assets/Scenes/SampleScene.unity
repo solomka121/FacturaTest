@@ -128,74 +128,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f72edcf06991e784d86a78809f746af8, type: 3}
   m_PrefabInstance: {fileID: 1174967771}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &38787267
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2004206629022065825, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_Name
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6154457053405078109, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7883262375066052908, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
-      propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform
-        'mixamorig:LeftHandThumb2'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform
-        'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:LeftHandThumb3'\n\tTransform
-        'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tand
-        more ...\n\tFrom animation clip 'Zombie Idle'\n\tFrom animation clip 'Zombie
-        Running'"
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
 --- !u!1001 &54147491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1323,6 +1255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 3241493069948683571, guid: f69389215cfc81d46a77d67fae895a9d, type: 3}
+  _player: {fileID: 1860134099}
 --- !u!1001 &1556918187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1444,7 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a4f453017106c49bdc01b90ed55938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelData: {fileID: 11400000, guid: 42af6e08c965f4545a03d244c5a2980b, type: 2}
+  levelSpawnData: {fileID: 11400000, guid: 42af6e08c965f4545a03d244c5a2980b, type: 2}
   startPoint: {fileID: 394082278}
   finishPoint: {fileID: 3789310517313357038}
   enemiesToSpawn: 30
@@ -1644,6 +1577,10 @@ MonoBehaviour:
   _speed: 2
   _turret: {fileID: 75608356}
   _rotationSensitivity: 100
+  _enemies:
+    serializedVersion: 2
+    m_Bits: 256
+  _noiseRadius: 12
 --- !u!54 &1860134100
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1969,4 +1906,3 @@ SceneRoots:
   - {fileID: 508715499}
   - {fileID: 1406098607}
   - {fileID: 1017736994}
-  - {fileID: 38787267}

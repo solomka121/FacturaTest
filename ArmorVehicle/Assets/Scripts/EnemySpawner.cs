@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Enemy _prefab;
+    [SerializeField] private Player _player;
     private List<Enemy> _enemies;
 
     private void Awake()
@@ -19,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
         float spawnLength = level.SpawnZoneLenght;
         float distanceBetweenEnemies = spawnLength / level.enemiesToSpawn;
 
-        LevelData levelData = level.levelData;
+        LevelSpawnData levelSpawnData = level.levelSpawnData;
 
         Vector3 spawnPosition = Vector3.zero;
         spawnPosition.z = level.startPoint.position.z;
@@ -27,11 +28,14 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < level.enemiesToSpawn; i++)
         {
             Vector3 randomPos = new Vector3(
-                Random.Range(-levelData.xRandomness, levelData.xRandomness),
+                Random.Range(-levelSpawnData.xRandomness, levelSpawnData.xRandomness),
                 0,
-                Random.Range(-levelData.zRandomness, levelData.zRandomness));
-            
-            Enemy enemy = Instantiate(_prefab, spawnPosition + randomPos, _prefab.transform.rotation, transform);
+                Random.Range(-levelSpawnData.zRandomness, levelSpawnData.zRandomness));
+
+            Enemy enemy = Instantiate(_prefab, spawnPosition + randomPos,
+                Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)),
+                transform);
+            enemy.Init(_player , levelSpawnData.maxXValidPoint);
 
             _enemies.Add(enemy);
             spawnPosition.z += distanceBetweenEnemies;
