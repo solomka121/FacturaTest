@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _maxWalkDistance = 1f;
     [SerializeField] private float _minWalkDistance = 0.2f;
     private float _maxXWalkValidPoint;
+
+    private EnemySpawner _enemySpawner;
     
     private float _timeRemainingToWalk;
     private Coroutine _walking;
@@ -31,20 +33,35 @@ public class Enemy : MonoBehaviour
     private bool _isAngry;
     private Player _player;
 
-    public void Init(Player player , ParticleItemsPool damageParticleItemsPool , float maxXValidPoint)
+    private bool _isPaused;
+
+    public void Init(EnemySpawner spawner , Player player , ParticleItemsPool damageParticleItemsPool , float maxXValidPoint)
     {
+        _enemySpawner = spawner;
+        
         _player = player;
         _damageParticleItemsPool = damageParticleItemsPool;
         _maxXWalkValidPoint = maxXValidPoint;
 
         health.OnDeath += Death;
+        _player.health.OnDeath += ClearAggro;
+
+        _isPaused = true;
         
         UpdateWalkTimer();
         SetAnimatorRandomIdleOffset();
     }
 
+    public void Activate()
+    {
+        _isPaused = false;
+    }
+
     private void FixedUpdate()
     {
+        if (_isPaused)
+            return;
+        
         if (!_isAngry)
         {
             TryWalk();
@@ -150,6 +167,10 @@ public class Enemy : MonoBehaviour
     private void Death()
     {
         _damageParticleItemsPool.ActivateParticleAt(transform.position + _centerOffset , Quaternion.LookRotation(-transform.forward));
+        
+        _enemySpawner.Remove(this);
+        _player.health.OnDeath -= ClearAggro;
+        
         Destroy(gameObject);
     }
 
@@ -162,6 +183,11 @@ public class Enemy : MonoBehaviour
     {
         _animator.SetBool("Running" , _moveMultiplier > 0.1f ? true : false);
         SetAnimatorSpeed();
+    }
+
+    private void ClearRunningAnimation()
+    {
+        _animator.SetBool("Running" ,  false);
     }
 
     private void SetAnimatorSpeed()
@@ -185,5 +211,13 @@ public class Enemy : MonoBehaviour
         
         if (_walking != null)
             StopCoroutine(_walking);
+    }
+
+    public void ClearAggro()
+    {
+        ResetAnimatorSpeed();
+        UpdateWalkTimer();
+        ClearRunningAnimation();
+        _isAngry = false;
     }
 }

@@ -34,10 +34,23 @@ public class EnemySpawner : MonoBehaviour
             Enemy enemy = Instantiate(_prefab, spawnPosition + randomPos,
                 Quaternion.Euler(new Vector3(0, Random.Range(-180, 180), 0)),
                 transform);
-            enemy.Init(_player , damageParticleItemsPool , levelSpawnData.maxXValidPoint);
+            enemy.Init(this, _player, damageParticleItemsPool, levelSpawnData.maxXValidPoint);
 
             _enemies.Add(enemy);
             spawnPosition.z += distanceBetweenEnemies;
+        }
+    }
+
+    public void Remove(Enemy enemy)
+    {
+        _enemies.Remove(enemy);
+    }
+
+    public void ActivateEnemies()
+    {
+        for (int i = 0; i < _enemies.Count; i++)
+        {
+            _enemies[i].Activate();
         }
     }
 }

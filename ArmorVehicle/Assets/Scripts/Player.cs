@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
@@ -5,8 +6,9 @@ public class Player : MonoBehaviour
 {
     public Health health;
     private Tween _damageTween;
-    
-    [SerializeField] private float _speed = 2;
+
+    [SerializeField] private float _maxSpeed = 2;
+    [SerializeField] private float _accelerationSpeed = 2;
     private float _currentSpeed;
     private Rigidbody _rigidbody;
 
@@ -18,12 +20,42 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask _enemies;
     [SerializeField] private float _noiseRadius = 8;
 
-    private Vector3 startPoint;
+    private Vector3 _startPoint;
+    public bool canMove = false;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         health.OnHealthChange += Damage;
+        health.OnDeath += Death;
+    }
+
+    public void Activate()
+    {
+        canMove = true;
+        
+        StartCoroutine(SpeedUp());
+        _turret.Activate();
+    }
+
+    public void Death()
+    {
+        canMove = false;
+        _turret.Deactivate();
+    }
+
+    private IEnumerator SpeedUp()
+    {
+        float progress = 0;
+        while (progress <= 1)
+        {
+            _currentSpeed = Mathf.Lerp(0, _maxSpeed, progress);
+            progress += Time.deltaTime * _accelerationSpeed;
+
+            yield return null;
+        }
+
+        _currentSpeed = _maxSpeed;
     }
 
     private void Update()
@@ -33,6 +65,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!canMove)
+            return;
+
         MoveForward();
         MakeNoise();
     }
@@ -43,8 +78,8 @@ public class Player : MonoBehaviour
         _carVisual.localPosition = Vector3.zero;
         _carVisual.localScale = Vector3.one;
 
-        _carVisual.DOShakePosition( 0.2f , 0.14f);
-        _carVisual.DOPunchScale( Vector3.one * -0.12f, 0.16f);
+        _carVisual.DOShakePosition(0.2f, 0.14f);
+        _carVisual.DOPunchScale(Vector3.one * -0.12f, 0.16f);
     }
 
     private void CheckForInput()
@@ -55,22 +90,39 @@ public class Player : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
-                startPoint = touch.position;
+                _startPoint = touch.position;
             }
             else if (touch.phase == TouchPhase.Moved)
             {
                 float moveValue = touch.deltaPosition.x / Screen.width * _rotationSensitivity;
-            
+
                 _turret.ChangeRotationTarget(moveValue);
-        
-                startPoint = Input.mousePosition;
+
+                _startPoint = Input.mousePosition;
             }
+
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            _startPoint = Input.mousePosition;
+            return;
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            float moveValue = (Input.mousePosition.x - _startPoint.x) / Screen.width * _rotationSensitivity;
+
+            _turret.ChangeRotationTarget(moveValue);
+
+            _startPoint = Input.mousePosition;
         }
     }
 
     private void MoveForward()
     {
-        transform.position += Vector3.forward * (_speed * Time.deltaTime);
+        transform.position += Vector3.forward * (_currentSpeed * Time.deltaTime);
     }
 
     private void MakeNoise()
@@ -88,6 +140,6 @@ public class Player : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position , _noiseRadius);
+        Gizmos.DrawWireSphere(transform.position, _noiseRadius);
     }
 }

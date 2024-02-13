@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
@@ -6,6 +7,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private float _bulletSpeed = 5;
     [SerializeField] private float _fireRate = 1;
     private float _timeSinceLastShot;
+    private bool _canShoot;
     [SerializeField] private BulletItemsPool _bulletsPool;
     
     [SerializeField] private float _maxRotationAngle = 60;
@@ -16,10 +18,33 @@ public class Turret : MonoBehaviour
 
     private float _targetYAngle = 0;
 
+    private void Start()
+    {
+        _laser.gameObject.SetActive(false);
+    }
+
     private void FixedUpdate()
     {
         RotateToTargetAngle();
+
+        if (!_canShoot)
+            return;
+        
         TryShoot();
+    }
+
+    public void Activate()
+    {
+        _timeSinceLastShot = -2f;
+        _canShoot = true;
+        
+        _laser.gameObject.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        _canShoot = false;
+        _laser.gameObject.SetActive(false);
     }
 
     private void TryShoot()
