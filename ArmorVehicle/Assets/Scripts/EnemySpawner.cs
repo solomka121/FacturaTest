@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private Enemy _prefab;
     [SerializeField] private Player _player;
+    [SerializeField] private ParticlesPool _damageParticlesPool;
     private List<Enemy> _enemies;
 
     private void Awake()
@@ -33,9 +34,9 @@ public class EnemySpawner : MonoBehaviour
                 Random.Range(-levelSpawnData.zRandomness, levelSpawnData.zRandomness));
 
             Enemy enemy = Instantiate(_prefab, spawnPosition + randomPos,
-                Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)),
+                Quaternion.Euler(new Vector3(0, Random.Range(-180, 180), 0)),
                 transform);
-            enemy.Init(_player , levelSpawnData.maxXValidPoint);
+            enemy.Init(_player , _damageParticlesPool , levelSpawnData.maxXValidPoint);
 
             _enemies.Add(enemy);
             spawnPosition.z += distanceBetweenEnemies;

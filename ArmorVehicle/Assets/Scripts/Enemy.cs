@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 public class Enemy : MonoBehaviour
 {
     public Health health;
+    [SerializeField] private Vector3 _centerOffset = new Vector3(0 , 0.5f , 0);
+    private ParticlesPool _damageParticlesPool;
 
     [SerializeField] private float _runSpeed = 2;
     private float _moveMultiplier;
@@ -30,14 +32,16 @@ public class Enemy : MonoBehaviour
     private bool _isAngry;
     private Player _player;
 
-    public void Init(Player player , float maxXValidPoint)
+    public void Init(Player player , ParticlesPool damageParticlesPool , float maxXValidPoint)
     {
         _player = player;
+        _damageParticlesPool = damageParticlesPool;
         _maxXWalkValidPoint = maxXValidPoint;
 
         health.OnDeath += Death;
         
         UpdateWalkTimer();
+        SetAnimatorRandomIdleOffset();
     }
 
     private void Update()
@@ -135,10 +139,21 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void Damage(Vector3 damagePoint , float damage)
+    {
+        health.Damage(damage);
+        _damageParticlesPool.ActivateParticleAt(damagePoint , Quaternion.LookRotation(damagePoint - transform.position));
+    }
+
     private void Death()
     {
-        // Spawn Particles
+        _damageParticlesPool.ActivateParticleAt(transform.position + _centerOffset , Quaternion.LookRotation(-transform.forward));
         Destroy(gameObject);
+    }
+
+    private void SetAnimatorRandomIdleOffset()
+    {
+        _animator.SetFloat("IdleOffset" , Random.Range(0 , 1));
     }
 
     private void SetRunningAnimation()
