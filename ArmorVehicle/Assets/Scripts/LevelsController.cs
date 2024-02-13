@@ -9,6 +9,7 @@ public class LevelsController : MonoBehaviour
     [Header("UI")] 
     [SerializeField] private GameObject _tapToPlayPanel;
     [SerializeField] private LosePanel _losePanel;
+    [SerializeField] private WinPanel _winPanel;
     
     [Header("Scene")]
     [SerializeField] private EnemySpawner _enemySpawner;
@@ -51,6 +52,16 @@ public class LevelsController : MonoBehaviour
         }
     }
 
+    public void LoadNextLevel()
+    {
+        _winPanel.Hide();
+        
+        ClearLevel();
+        ResetLevel();
+        _currentLevelIndex++;
+        LoadLevel();
+    }
+
     public void LoadLevel()
     {
         _tapToPlayPanel.gameObject.SetActive(true);
@@ -86,7 +97,10 @@ public class LevelsController : MonoBehaviour
 
     public void LevelWin()
     {
-        Debug.Log("Win");
+        _winPanel.Show();
+        
+        _player.Deactivate();
+        _enemySpawner.ClearAggro();
     }
 
     public void RestartLevel()

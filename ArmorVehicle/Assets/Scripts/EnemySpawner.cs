@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
 
         for (int i = 0; i < _preload; i++)
         {
-            // _enemiesPool.Enqueue(SpawnEnemy());
+            _enemiesPool.Enqueue(SpawnEnemy());
         }
     }
 
@@ -91,7 +91,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void DeactivateExtraSpawnPoints(int count)
     {
-        for (int i = count - 1; i < _spawnPoints.Count; i++)
+        for (int i = count; i < _spawnPoints.Count; i++)
         {
             _spawnPoints[i].gameObject.SetActive(false);
         }
@@ -112,7 +112,7 @@ public class EnemySpawner : MonoBehaviour
         Enemy enemy = GetEnemy();
         enemy.transform.position = spawnPosition;
         enemy.transform.rotation = Quaternion.Euler(new Vector3(0, Random.Range(-180, 180), 0));
-        enemy.SetLevelData(_currentLevel.levelSpawnData);
+        enemy.SetLevelData(_currentLevel);
         
         enemy.gameObject.SetActive(true);
         _activeEnemies.Add(enemy);
@@ -141,6 +141,14 @@ public class EnemySpawner : MonoBehaviour
         for (int i = _activeEnemies.Count - 1; i >= 0; i--)
         {
             _activeEnemies[i].ReturnToPool();
+        }
+    }
+
+    public void ClearAggro()
+    {
+        for (int i = _activeEnemies.Count - 1; i >= 0; i--)
+        {
+            _activeEnemies[i].ClearAggro();
         }
     }
     

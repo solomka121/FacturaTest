@@ -48,12 +48,12 @@ public class Player : MonoBehaviour
 
     public void Deactivate()
     {
+        canMove = false;
         _turret.Deactivate();
     }
 
     public void Death()
     {
-        canMove = false;
         Deactivate();
     }
 

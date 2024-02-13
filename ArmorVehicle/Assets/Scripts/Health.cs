@@ -8,6 +8,11 @@ public class Health : MonoBehaviour
     public event System.Action<float> OnHealthChange;
     public event System.Action OnDeath;
 
+    public void SetMaxHealth(float value)
+    {
+        maxHealth = value;
+    }
+
     public void Damage(float amount)
     {
         currentHealth -= amount;

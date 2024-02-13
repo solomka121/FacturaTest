@@ -3,6 +3,8 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     public LevelSpawnData levelSpawnData;
+
+    public float enemiesHealth = 10;
     
     public Transform startPoint;
     public FinishPoint finishPoint;

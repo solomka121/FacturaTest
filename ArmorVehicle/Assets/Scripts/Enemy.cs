@@ -49,9 +49,10 @@ public class Enemy : MonoBehaviour
         SetAnimatorRandomIdleOffset();
     }
 
-    public void SetLevelData(LevelSpawnData data)
+    public void SetLevelData(Level level)
     {
-        _maxXWalkValidPoint = data.maxXValidPoint;
+        _maxXWalkValidPoint = level.levelSpawnData.maxXValidPoint;
+        
     }
 
     public void Activate()
