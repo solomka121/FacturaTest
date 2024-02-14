@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq.Expressions;
 using DG.Tweening;
 using UnityEngine;
 
@@ -10,6 +11,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float _maxSpeed = 2;
     [SerializeField] private float _accelerationSpeed = 2;
+    [SerializeField] private float _sineStrength = 2;
+    private float _currentSineStrength = 0;
+    [SerializeField] private float _sineAmplitude = 1;
+    private float _startMovingTime;
+    [SerializeField] private float _startMovingOffset = 1.57f; // pi / 2.
     private float _currentSpeed;
     private Rigidbody _rigidbody;
 
@@ -34,6 +40,7 @@ public class Player : MonoBehaviour
     public void Reset()
     {
         transform.position = Vector3.zero;
+        transform.rotation = Quaternion.Euler(Vector3.zero);
         health.Reset();
         healthBar.Hide();
         healthBar.UpdateValue();
@@ -45,7 +52,10 @@ public class Player : MonoBehaviour
     {
         healthBar.Show();
         canMove = true;
-        
+
+        _startMovingTime = Time.time;
+        _currentSineStrength = 0;
+
         StartCoroutine(SpeedUp());
         _turret.Activate();
     }
@@ -66,10 +76,10 @@ public class Player : MonoBehaviour
         float progress = 0;
         while (progress <= 1)
         {
-            _currentSpeed = Mathf.Lerp(0, _maxSpeed, progress);
+            _currentSpeed = Mathf.LerpUnclamped(0, _maxSpeed, progress);
             progress += Time.deltaTime * _accelerationSpeed;
 
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         _currentSpeed = _maxSpeed;
@@ -139,7 +149,29 @@ public class Player : MonoBehaviour
 
     private void MoveForward()
     {
+        Vector3 previousPosition = transform.position;
         transform.position += Vector3.forward * (_currentSpeed * Time.deltaTime);
+        float timePassedSinceMove = Time.time - _startMovingTime - 2f;
+
+        if (timePassedSinceMove < 0)
+            return;
+        
+        TransformInSineWave(previousPosition, timePassedSinceMove);
+        _currentSineStrength = Mathf.Clamp01(_currentSineStrength + (Time.deltaTime * 0.25f));
+    }
+
+    private void TransformInSineWave(Vector3 previousPosition , float timePassedSinceMove)
+    {
+        float xSinePosition = Mathf.Sin((timePassedSinceMove) * _sineAmplitude);
+        transform.position = new Vector3(xSinePosition * _sineStrength * _currentSineStrength , transform.position.y, transform.position.z);
+        
+        Vector3 lookDirection = transform.position - previousPosition;
+        transform.rotation =
+            Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDirection), 6 * Time.deltaTime);
+
+        Debug.DrawLine(transform.position, previousPosition,
+            new Color(
+                (Time.time * 12) % 1, 0, 0, 1), 8);
     }
 
     private void MakeNoise()

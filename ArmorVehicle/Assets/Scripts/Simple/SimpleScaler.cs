@@ -16,7 +16,7 @@ public class SimpleScaler : MonoBehaviour
 
     private Vector3 _startLocalScale;
 
-    private void Start()
+    private void Awake()
     {
         _startLocalScale = transform.localScale;
         
